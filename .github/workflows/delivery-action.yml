@@ -2,10 +2,7 @@ name: Validate Push Time
 
 on:
   push:
-    branches:
-      - main  # Puedes cambiar esto a la rama que desees validar
-      - develop
-      
+
 jobs:
   check-time:
     runs-on: ubuntu-latest
