@@ -1,0 +1,24 @@
+name: Validate Push Time
+
+on:
+  push:
+    branches:
+      - main  # Puedes cambiar esto a la rama que desees validar
+      - develop
+
+jobs:
+  check-time:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current UTC hour
+        id: time
+        run: echo "hour=$(date -u +%H)" >> $GITHUB_ENV
+
+      - name: Validate push time
+        run: |
+          if [ $hour -lt 8 ] || [ $hour -gt 18 ]; then
+            echo "Push fuera del horario permitido (08:00 - 18:00 UTC)."
+            exit 1
+          fi
+        env:
+          hour: ${{ env.hour }}
