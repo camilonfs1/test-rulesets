@@ -15,7 +15,6 @@ The action file is located at:
 ```
 
 ### 🛠️ How to Change the Deadline?
-To modify the date and time when `push` and `PRs` will be blocked, edit the following lines in `validate-push-deadline.yml`:
 
 ```yaml
 deadline_date="2025-03-20"  # Change the deadline date (YYYY-MM-DD)
