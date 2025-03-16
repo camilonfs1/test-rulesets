@@ -15,7 +15,6 @@ The action file is located at:
 ```
 
 ### 🛠️ How to Change the Deadline?
-To modify the date and time when `push` and `PRs` will be blocked, edit the following lines in `validate-push-deadline.yml`:
 
 ```yaml
 deadline_date="2025-03-20"  # Change the deadline date (YYYY-MM-DD)
@@ -41,3 +40,70 @@ If you want to prevent `merge` into branches like `develop` or `master` after th
 - **After the deadline**: Any `push` or `PR` will be rejected with an error.
 
 ---
+
+## Ruleset
+
+Create a new branch rule set to block push and merge if deadline is not valid, like this:
+
+```json
+{
+  "id": 4192410,
+  "name": "develop",
+  "target": "branch",
+  "source_type": "Repository",
+  "source": "camilonfs1/test-rulesets",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": [
+        "refs/heads/develop",
+        "refs/heads/main"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": false,
+        "do_not_enforce_on_create": false,
+        "required_status_checks": [
+          {
+            "context": "check-deadline",
+            "integration_id": 15368
+          }
+        ]
+      }
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 1,
+        "dismiss_stale_reviews_on_push": false,
+        "require_code_owner_review": false,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": false,
+        "allowed_merge_methods": [
+          "merge",
+          "squash",
+          "rebase"
+        ]
+      }
+    }
+  ],
+  "bypass_actors": [
+    {
+      "actor_id": 5,
+      "actor_type": "RepositoryRole",
+      "bypass_mode": "always"
+    }
+  ]
+}
+```
