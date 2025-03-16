@@ -40,4 +40,3 @@ If you want to prevent `merge` into branches like `develop` or `master` after th
 - **After the deadline**: Any `push` or `PR` will be rejected with an error.
 
 ---
-
